@@ -3,6 +3,10 @@ from django.shortcuts import render
 from django.views.generic.base import(
     View,TemplateView,
 )
+from django.views.generic.detail import(
+    DetailView
+)
+from .models import Books
 from . import forms
 from datetime import datetime
 
@@ -24,3 +28,7 @@ class HomeView(TemplateView):
         context['name']=kwargs.get('name')
         context['time']=datetime.now()
         return context
+
+class BookDetailView(DetailView):
+    model=Books
+    template_name='book.html'
