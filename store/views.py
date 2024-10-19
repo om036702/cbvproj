@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import(
-    View,
+    View,TemplateView,
 )
 from . import forms
 
@@ -14,3 +14,6 @@ class IndexView(View):
         if book_form.is_valid():
             book_form.save()
             return render(request, 'index.html', context={'book_form':book_form,})
+
+class HomeView(TemplateView):
+    template_name='home.html'
