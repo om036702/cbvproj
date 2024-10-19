@@ -1,0 +1,16 @@
+# .gitignore
+
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Environment
+.env
+venv/
+env/
+
+# Django specific
+db.sqlite3
+/static/
+/media/
