@@ -1,8 +1,10 @@
+from typing import Any
 from django.shortcuts import render
 from django.views.generic.base import(
     View,TemplateView,
 )
 from . import forms
+from datetime import datetime
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
@@ -17,3 +19,7 @@ class IndexView(View):
 
 class HomeView(TemplateView):
     template_name='home.html'
+    def get_context_data(self, **kwargs: Any):
+        context=super().get_context_data(**kwargs)
+        context['time']=datetime.now()
+        return context
