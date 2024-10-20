@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (IndexView, HomeView, BookDetailView, BookListView, BookCreateView, BookUpdateView, BookDeleteView, BookPView)
 # from django.views.generic.base import TemplateView
+from django.views.generic.base import RedirectView
 
 app_name = 'store'
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path('edit_book/<int:pk>',BookUpdateView.as_view(), name='edit_book'),
     path('delete_book/<int:pk>',BookDeleteView.as_view(), name='delete_book'),
     path('bookprice/',BookPView.as_view(), name='bookprice'),
+    path('ttc/',RedirectView.as_view(url='https://tec.ttc.ac.jp/departments/it-game-web/iot-ai/')),
 ]
