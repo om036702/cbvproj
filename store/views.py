@@ -1,5 +1,6 @@
 from typing import Any
 from django.db.models.query import QuerySet
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.base import(
     View,TemplateView,
@@ -7,7 +8,8 @@ from django.views.generic.base import(
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import(
-    CreateView, UpdateView, DeleteView, 
+    CreateView, UpdateView, DeleteView,
+    FormView,
 )
 from django.urls import reverse_lazy
 from .models import Books
@@ -79,3 +81,20 @@ class BookDeleteView(DeleteView):
     model=Books
     template_name='delete_book.html'
     success_url=reverse_lazy('store:list_book')
+
+class BookPView(FormView):
+    form_class=forms.BookPForm
+    template_name='book_price.html'
+
+    def get_initial(self) -> dict[str, Any]:
+        initial=super(BookPView, self).get_initial()
+        initial['price']=0
+        return initial
+
+    def form_valid(self, form):
+        c_price=form.cleaned_data.get('price')
+        tax=int(c_price/11)
+        hontai=c_price - tax
+
+        context={'form':form, 'hontai': hontai, 'tax': tax}
+        return render(self.request, self.template_name, context)

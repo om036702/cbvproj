@@ -1,4 +1,7 @@
+from typing import Any, Mapping
 from django import forms
+from django.forms.renderers import BaseRenderer
+from django.forms.utils import ErrorList
 from .models import Books
 from datetime import datetime
 
@@ -27,4 +30,10 @@ class BookUpdateForm(forms.ModelForm):
     ##    obj.create_at=datetime.now()
         obj.update_at=datetime.now()
         obj.save()
-        return obj    
+        return obj  
+
+class BookPForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix=' '
+    price=forms.IntegerField(label='価格')
