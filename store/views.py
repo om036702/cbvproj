@@ -12,6 +12,8 @@ from django.views.generic.edit import(
     FormView,
 )
 from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+
 from .models import Books
 from . import forms
 from datetime import datetime
@@ -69,11 +71,11 @@ class BookCreateView(CreateView):
         initial['price']=0
         return initial
 
-class BookUpdateView(UpdateView):
+class BookUpdateView(SuccessMessageMixin, UpdateView):
     model=Books
     template_name='update_book.html'
     form_class=forms.BookUpdateForm
-
+    success_message='更新に成功しました'
     def get_success_url(self):
         return reverse_lazy('store:edit_book',kwargs={'pk':self.object.id})
 
@@ -104,4 +106,5 @@ class BookRedirectView(RedirectView):
         if 'pk' in kwargs:
             return reverse_lazy('store:detail_book', kwargs={'pk': kwargs['pk']})
 
-        return reverse_lazy('store:list_book')    
+        return reverse_lazy('store:list_book')
+    

@@ -1,4 +1,10 @@
-<h1>本の更新</h1>
+<p>本の更新</p>
+{% if messages %}
+{% for message in messages %}
+    {{ message.message }}
+{% endfor %}
+{% endif %}
+
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
