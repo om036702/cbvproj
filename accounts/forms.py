@@ -2,6 +2,7 @@ from django import forms
 from .models import Users
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import AuthenticationForm
 
 class RegistForm(forms.ModelForm):	#<-- 画面で登録のための項目を指定
     username = forms.CharField(label='名前', widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -29,7 +30,11 @@ class RegistForm(forms.ModelForm):	#<-- 画面で登録のための項目を指�
         user.set_password(self.cleaned_data['password'])	#<-- 暗号化
         user.save()	#<-- 保管処理
         return user
-
+'''
 class UserLoginForm(forms.Form):
     email = forms.EmailField(label='メールアドレス')
+    password = forms.CharField(label='パスワード', widget=forms.PasswordInput())
+'''
+class UserLoginForm(AuthenticationForm):
+    username = forms.EmailField(label='メールアドレス')
     password = forms.CharField(label='パスワード', widget=forms.PasswordInput())

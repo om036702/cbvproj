@@ -22,8 +22,8 @@ class Users(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']	#<-- ユーザーを作成するために必要なキー
+    USERNAME_FIELD = 'email'        # 認証に使うフィールドをemailに変更
+    REQUIRED_FIELDS = ['username']	# 必須で入力させたいフィールドを指定
 
     objects = UserManager()	
 

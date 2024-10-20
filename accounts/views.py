@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
 
 class HomeView(TemplateView):	 
     template_name = 'accounts/home.html'	
@@ -15,6 +16,7 @@ class RegistUserView(CreateView):
     template_name = 'accounts/regist.html'	
     form_class = RegistForm	
 
+'''
 class UserLoginView(FormView):
     template_name = 'accounts/user_login.html'
     form_class = UserLoginForm 
@@ -50,7 +52,7 @@ class UserLogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return redirect('accounts:user_login')
-
+'''
 
 class UserView(TemplateView):
     template_name = 'accounts/user.html'
@@ -59,7 +61,7 @@ class UserView(TemplateView):
     def dispatch(self, *args, **kwargs):	
         return super().dispatch(*args, **kwargs)
     
-    
+
 '''
 @method_decorator(login_required, name='dispatch')
 class UserView(TemplateView):
@@ -76,3 +78,16 @@ class UserView(LoginRequiredMixin, TemplateView):
     def dispatch(self, *args, **kwargs):	
         return super().dispatch(*args, **kwargs)
 '''
+
+class UserLoginView(LoginView):
+    template_name = 'accounts/user_login.html'
+    authentication_form = UserLoginForm 
+
+    def post(self, request, *args, **kwargs):
+        if "btn_home" in request.POST:
+            return redirect('accounts:home')
+        # 通常のログイン処理を行う
+        return super().post(request, *args, **kwargs)
+
+class UserLogoutView(LogoutView):
+    pass
