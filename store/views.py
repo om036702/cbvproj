@@ -3,9 +3,8 @@ from django.shortcuts import render
 from django.views.generic.base import(
     View,TemplateView,
 )
-from django.views.generic.detail import(
-    DetailView
-)
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from .models import Books
 from . import forms
 from datetime import datetime
@@ -32,3 +31,7 @@ class HomeView(TemplateView):
 class BookDetailView(DetailView):
     model=Books
     template_name='book.html'
+
+class BookListView(ListView):
+    model=Books
+    template_name='book_list.html'    
