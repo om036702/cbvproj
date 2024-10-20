@@ -5,5 +5,6 @@
    {{ form.as_p }}
    <input type="hidden" name="next" value="{{ request.GET.next }}">
    <input type="submit" value="ログイン">
+   <input type="submit" name="btn_home" value="ホーム" novalidate>
 </form>
 {% endblock %}

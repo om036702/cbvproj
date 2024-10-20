@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.base import TemplateView, View
 from .forms import RegistForm, UserLoginForm
+from django.contrib.auth import authenticate, login, logout	
+from django.core.exceptions import ValidationError
 
 class HomeView(TemplateView):	 
     template_name = 'accounts/home.html'	
@@ -14,5 +16,35 @@ class UserLoginView(FormView):
     template_name = 'accounts/user_login.html'
     form_class = UserLoginForm 
 
+    def post(self, request, *args, **kwargs):
+        if "btn_home" in request.POST:
+            return redirect('accounts:home')
+
+        form=UserLoginForm(request.POST)
+        if form.is_valid():
+            email=form.cleaned_data['email']
+            password=form.cleaned_data['password']
+        
+            user = authenticate(email=email, password=password) 
+            if user is not None and user.is_active:
+                login(request, user)
+                return redirect('accounts:home')
+
+            # 認証エラーの場合、フォームにエラーメッセージを追加
+            form.add_error(None, ValidationError('ユーザ名かパスワードが正しくありません'))
+
+        # エラーがある場合はform_invalidを呼び出す
+        return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        # フォームのデータを使ってcontextに追加できる
+        context['email'] = form.cleaned_data.get('email', '')
+        context['password'] = ''
+        return self.render_to_response(context)
+
+
 class UserLogoutView(View):
-    pass
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('accounts:user_login')

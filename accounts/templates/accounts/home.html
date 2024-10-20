@@ -1,4 +1,8 @@
 {% extends 'accounts/base.html' %}
 {% block content %}
 <h1>ホーム画面です</h1>
+{% if user.is_authenticated %}
+    <br>
+    <h4><font color="red">ログイン中です</font></h4>
+{% endif %}
 {% endblock %}
