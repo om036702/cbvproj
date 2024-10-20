@@ -7,7 +7,7 @@ from django.views.generic.base import(
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import(
-    CreateView,
+    CreateView, UpdateView, 
 )
 from django.urls import reverse_lazy
 from .models import Books
@@ -66,3 +66,8 @@ class BookCreateView(CreateView):
         initial['description']='sample本の説明'
         initial['price']=0
         return initial
+
+class BookUpdateView(UpdateView):
+    model=Books
+    template_name='update_book.html'
+    form_class=forms.BookUpdateForm
