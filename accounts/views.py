@@ -1,17 +1,18 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.base import TemplateView, View
-from .forms import RegistForm
+from .forms import RegistForm, UserLoginForm
 
-class HomeView(TemplateView):               #<--　ホーム画面（TemplateViewを継承） 
-    template_name = 'accounts/home.html'    #<--　テンプレートで表示したい画面
+class HomeView(TemplateView):	 
+    template_name = 'accounts/home.html'	
 
-class RegistUserView(CreateView):           #<--　登録用画面（CreateViewを継承） 
-    template_name = 'accounts/regist.html'  #<--　テンプレートで表示したい画面
-    form_class = RegistForm                 #<--　使用するフォームクラス
+class RegistUserView(CreateView):	 
+    template_name = 'accounts/regist.html'	
+    form_class = RegistForm	
 
-class UserLoginView(FormView):              #<--　あとで記述
-    pass
+class UserLoginView(FormView):
+    template_name = 'accounts/user_login.html'
+    form_class = UserLoginForm 
 
-class UserLogoutView(View):                 #<--　あとで記述
+class UserLogoutView(View):
     pass
