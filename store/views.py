@@ -7,7 +7,7 @@ from django.views.generic.base import(
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import(
-    CreateView, UpdateView, 
+    CreateView, UpdateView, DeleteView, 
 )
 from django.urls import reverse_lazy
 from .models import Books
@@ -74,3 +74,8 @@ class BookUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('store:edit_book',kwargs={'pk':self.object.id})
+
+class BookDeleteView(DeleteView):
+    model=Books
+    template_name='delete_book.html'
+    success_url=reverse_lazy('store:list_book')

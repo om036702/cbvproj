@@ -1,0 +1,6 @@
+<h1>本の削除</h1>
+<form method="POST">
+    {% csrf_token %}
+    <p>{{object.name}}を削除します。よろしいですか？</p>
+    <input type="submit" value="削除">
+</form>
