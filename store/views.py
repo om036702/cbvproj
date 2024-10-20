@@ -6,6 +6,10 @@ from django.views.generic.base import(
 )
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.views.generic.edit import(
+    CreateView,
+)
+from django.urls import reverse_lazy
 from .models import Books
 from . import forms
 from datetime import datetime
@@ -44,3 +48,14 @@ class BookListView(ListView):
             qs=qs.filter(name__startswith=self.kwargs['name'])
         qs=qs.order_by('-id')
         return qs
+
+class BookCreateView(CreateView):
+    model=Books
+    fields=['name', 'description', 'price']
+    template_name='add_book.html'
+    success_url=reverse_lazy('store:list_book')
+
+    def form_valid(self, form):
+        form.instance.create_at=datetime.now()
+        form.instance.update_at=datetime.now()
+        return super().form_valid(form)
