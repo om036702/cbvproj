@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.base import(
     View,TemplateView,
@@ -34,4 +35,12 @@ class BookDetailView(DetailView):
 
 class BookListView(ListView):
     model=Books
-    template_name='book_list.html'    
+    template_name='book_list.html'
+
+    def get_queryset(self):
+        qs=super(BookListView, self).get_queryset()
+        # 絞り込み
+        if 'name' in self.kwargs:
+            qs=qs.filter(name__startswith=self.kwargs['name'])
+        qs=qs.order_by('-id')
+        return qs
