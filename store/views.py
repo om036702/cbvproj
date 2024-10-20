@@ -78,6 +78,9 @@ class BookUpdateView(SuccessMessageMixin, UpdateView):
     success_message='更新に成功しました'
     def get_success_url(self):
         return reverse_lazy('store:edit_book',kwargs={'pk':self.object.id})
+    
+    def get_success_message(self, cleaned_data):
+        return f'{cleaned_data.get('name')}を更新しました'
 
 class BookDeleteView(DeleteView):
     model=Books
