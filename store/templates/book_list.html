@@ -1,6 +1,16 @@
-{% for object in object_list %}
-    名前：{{object.name}}<br>
-    説明：{{object.description}}<br>
-    価格：{{object.price}}円<br>
-    <br>
-{% endfor %}
+<p><a href="{% url 'store:add_book' %}">データ追加</a></p>
+<ul>
+<table>
+    <tbody>
+        {% for object in object_list %}
+        <tr>
+            <td>名前：<a href="{{ object.get_absolute_url}}">{{object.name}}</a></td>
+            <td>説明：{{ object.description}}</td>
+            <td>価格：{{ object.price}}</td>
+            <td><a href="{%url 'store:edit_book' object.id %}">編集</a></td>
+            <td><a href="{%url 'store:delete_book' object.id %}">削除</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</ul>
