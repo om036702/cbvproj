@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.base import(
-    View,TemplateView,
+    View,TemplateView, RedirectView, 
 )
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -98,3 +98,10 @@ class BookPView(FormView):
 
         context={'form':form, 'hontai': hontai, 'tax': tax}
         return render(self.request, self.template_name, context)
+
+class BookRedirectView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        if 'pk' in kwargs:
+            return reverse_lazy('store:detail_book', kwargs={'pk': kwargs['pk']})
+
+        return reverse_lazy('store:list_book')    
