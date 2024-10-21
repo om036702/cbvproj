@@ -1,3 +1,5 @@
+from django.contrib.auth.forms import AuthenticationForm
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.base import TemplateView, View
@@ -88,6 +90,12 @@ class UserLoginView(LoginView):
             return redirect('accounts:home')
         # 通常のログイン処理を行う
         return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        remember = form.cleaned_data['remember']
+        if remember:
+            self.request.session.set_expiry(1200000)
+        return super().form_valid(form)
 
 class UserLogoutView(LogoutView):
     pass
